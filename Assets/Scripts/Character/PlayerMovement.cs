@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
 
     public GameObject Door;
 
+    public static bool Attack = false;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +32,20 @@ public class PlayerMovement : MonoBehaviour
 
         verticalInput = Input.GetAxis("Vertical");
 
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+
+            transform.localRotation = Quaternion.Euler(0, 180, 0);
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+        {
+
+            transform.localRotation = Quaternion.Euler(0, 0, 0);
+
+        }
+
     }
 
     private void FixedUpdate()
@@ -40,20 +55,22 @@ public class PlayerMovement : MonoBehaviour
 
         rb.AddForce(Vector2.up * moveSpeed * verticalInput);
 
+        
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        TestKey testKey = collision.gameObject.GetComponent<TestKey>();
+        KeyDoor keydoor = collision.gameObject.GetComponent<KeyDoor>();
 
-        if (testKey)
+        if (keydoor)
         {
 
             Destroy(collision.gameObject);
             Door.SetActive(false);
 
-        }
+        }       
 
     }
 
